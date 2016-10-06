@@ -19,6 +19,7 @@ public class KartController : MonoBehaviour
     public float maxSteeringAngle;
     public Transform centerOfMass;
     public List<AudioSource> soundEffects;
+    //public List<GameObject> frontWheels;
 
     private Rigidbody rigidbody;
     private bool breakWheels;
