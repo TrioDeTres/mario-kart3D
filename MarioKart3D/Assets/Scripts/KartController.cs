@@ -67,6 +67,7 @@ public class KartController : MonoBehaviour
         }
 
         soundPlayer(motor);
+        Debug.Log(centerOfMass.position.ToString());
     }
 
     private void isBreaking()
