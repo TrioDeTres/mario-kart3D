@@ -58,8 +58,6 @@ public class KartController : MonoBehaviour
 
                  w.leftWheel.motorTorque = motor;
                  w.rightWheel.motorTorque = motor;
-                //w.leftWheel.brakeTorque = 0.0f;
-                //w.rightWheel.brakeTorque = 0.0f;
             } //else if(breakWheels)
             //{
             //    w.leftWheel.brakeTorque = 0.75f;
@@ -68,7 +66,6 @@ public class KartController : MonoBehaviour
         }
 
         soundPlayer(motor);
-        Debug.Log(centerOfMass.position.ToString());
     }
 
     private void isBreaking()
@@ -107,11 +104,11 @@ public class KartController : MonoBehaviour
             }
             else if (motor < 0)
             {
-                soundEffects[2].Play();
+                soundEffects[1].Play();
 
                 //StopSound
                 soundEffects[0].Stop();
-                soundEffects[1].Stop();
+                soundEffects[2].Stop();
                 soundEffects[3].Stop();
             }
         //}
