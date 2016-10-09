@@ -19,15 +19,14 @@ public class KartController : MonoBehaviour
     public float maxSteeringAngle;
     public Transform centerOfMass;
     public List<AudioSource> soundEffects;
-    //public List<GameObject> frontWheels;
+    public float kartSpeed;
 
     private Rigidbody rigidbody;
-    private bool breakWheels;
+    private bool breakWheels = false;
 
     public void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
-        breakWheels = false;
 
         foreach (WheelData w in wheels)
         {
@@ -41,38 +40,53 @@ public class KartController : MonoBehaviour
         float motor = maxMotorTorque * Input.GetAxis("Vertical");
         float steering = maxSteeringAngle * Input.GetAxis("Horizontal");
 
-        //isBreaking();
+        //isBreaking(motor);
+        getSpeed();
 
-        foreach (WheelData w in wheels)
-        {
-            //Steering
-             if (w.steering)
-             {
-                w.leftWheel.steerAngle = steering;
-                w.rightWheel.steerAngle = steering;
-             }
+            foreach (WheelData w in wheels)
+            {
+                //Steering
+                if (w.steering)
+                {
+                    w.leftWheel.steerAngle = steering;
+                    w.rightWheel.steerAngle = steering;
+                }
 
-             //Torque
-             if (w.motor)// && !breakWheels)
-             {
+                //Torque
+                if (w.motor)// && !breakWheels)
+                {
 
-                 w.leftWheel.motorTorque = motor;
-                 w.rightWheel.motorTorque = motor;
-            } //else if(breakWheels)
-            //{
-            //    w.leftWheel.brakeTorque = 0.75f;
-            //    w.rightWheel.brakeTorque = 0.75f;
-            //}
-        }
+                    w.leftWheel.motorTorque = motor;
+                    w.rightWheel.motorTorque = motor;
+                }
+            }
 
         soundPlayer(motor);
     }
 
-    private void isBreaking()
+    private void getSpeed()
+    {
+        kartSpeed = rigidbody.velocity.magnitude;
+    }
+
+    private void isBreaking(float motor)
     {
         if (Input.GetKey(KeyCode.B))
         {
             breakWheels = true;
+            foreach (WheelData w in wheels)
+            {
+                w.leftWheel.brakeTorque = 5.0f;
+                w.rightWheel.brakeTorque = 5.0f;
+            }
+        }
+        else if (motor == 0.0f) {
+            breakWheels = false;
+            foreach (WheelData w in wheels)
+            {
+                w.leftWheel.brakeTorque = 1.0f;
+                w.rightWheel.brakeTorque = 1.0f;
+            }
         }
         else {
             breakWheels = false;
