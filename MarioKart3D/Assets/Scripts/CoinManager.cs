@@ -17,9 +17,9 @@ public class CoinManager : MonoBehaviour {
 
     void OnTriggerEnter(Collider col) {
         col.gameObject.GetComponent<KartCointPoints>().coins += 1;
+        CoinHUD.coins = col.gameObject.GetComponent<KartCointPoints>().coins;
         GetComponentInChildren<MeshRenderer>().enabled = false;
         AppearCoin();
-        GetComponentInChildren<MeshRenderer>().enabled = true;
         Debug.Log(col.gameObject.GetComponent<KartCointPoints>().coins);
     }
 
@@ -27,6 +27,7 @@ public class CoinManager : MonoBehaviour {
     {
         GetComponent<Collider>().enabled = false;
         yield return new WaitForSeconds(3.5f);
-        GetComponent<Collider>().enabled = false;
+        GetComponent<Collider>().enabled = true;
+        GetComponentInChildren<MeshRenderer>().enabled = true;
     }
 }

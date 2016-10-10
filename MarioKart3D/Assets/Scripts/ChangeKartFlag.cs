@@ -7,11 +7,10 @@ public class ChangeKartFlag : MonoBehaviour {
 
     void OnTriggerEnter(Collider col)
     {
-        int kartFlagValue = col.gameObject.GetComponent<TriggerFlag>().currentFlagValue;
-        if (kartFlagValue < flagValue)
+        if (TriggerFlag.currentFlagValue <= flagValue && TriggerFlag.currentFlagValue != flagValue)
         {
-            col.gameObject.GetComponent<TriggerFlag>().currentFlagValue = flagValue;
-            Debug.Log("Flag" + flagValue);
+            TriggerFlag.currentFlagValue = flagValue;
+            Debug.Log("Flag " + flagValue + " current " + TriggerFlag.currentFlagValue);
         }
         else {
             Debug.Log("Wrong way");
