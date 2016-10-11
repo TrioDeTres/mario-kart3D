@@ -17,11 +17,12 @@ public class KartController : MonoBehaviour
     public List<WheelData> wheels;
     public float maxMotorTorque;
     public float maxSteeringAngle;
-    public Transform centerOfMass;
     public List<AudioSource> soundEffects;
 
     private Rigidbody rigidbody;
-    private bool breakWheels = false;
+    private float m_OldRotation;
+
+    private bool breakWheels;
 
     public void Start()
     {
@@ -41,23 +42,39 @@ public class KartController : MonoBehaviour
 
         isBreaking(motor);
 
-            foreach (WheelData w in wheels)
+        foreach (WheelData w in wheels)
+        {
+            //Steering
+            if (w.steering)
             {
-                //Steering
-                if (w.steering)
-                {
-                    w.leftWheel.steerAngle = steering;
-                    w.rightWheel.steerAngle = steering;
-                }
-
-                //Torque
-                if (w.motor)// && !breakWheels)
-                {
-
-                    w.leftWheel.motorTorque = motor;
-                    w.rightWheel.motorTorque = motor;
-                }
+                w.leftWheel.steerAngle = steering;
+                w.rightWheel.steerAngle = steering;
             }
+
+            //Torque
+            if (w.motor)// && !breakWheels)
+            {
+
+                w.leftWheel.motorTorque = motor;
+                w.rightWheel.motorTorque = motor;
+            }
+        }
+
+        if (Mathf.Abs(m_OldRotation - transform.eulerAngles.y) < 10f)
+        {
+            var turnadjust = (transform.eulerAngles.y - m_OldRotation) * 1.0f;
+            Quaternion velRotation = Quaternion.AngleAxis(turnadjust, Vector3.up);
+            rigidbody.velocity = velRotation * rigidbody.velocity;
+        }
+
+
+        m_OldRotation = transform.eulerAngles.y;
+
+        wheels[0].rightWheel.attachedRigidbody.AddForce(-transform.up * 100 *
+                                                     wheels[0].rightWheel.attachedRigidbody.velocity.magnitude);
+
+        wheels[0].leftWheel.attachedRigidbody.AddForce(-transform.up * 100 *
+                                                     wheels[0].leftWheel.attachedRigidbody.velocity.magnitude);
 
         soundPlayer(motor);
     }
