@@ -9,6 +9,7 @@ TagManager:
   - Ground
   - Kart
   - Canvas
+  - KartShellPos
   layers:
   - Default
   - TransparentFX

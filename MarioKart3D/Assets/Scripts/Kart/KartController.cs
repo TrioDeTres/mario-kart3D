@@ -33,6 +33,8 @@ public class KartController : MonoBehaviour
             w.leftWheel.ConfigureVehicleSubsteps(1, 12, 15);
             w.rightWheel.ConfigureVehicleSubsteps(1, 12, 15);
         }
+        TransformUpdate();
+
     }
 
     public void FixedUpdate()
@@ -60,6 +62,19 @@ public class KartController : MonoBehaviour
             }
         }
 
+        SteerinController();
+        soundPlayer(motor);
+    }
+
+    private void TransformUpdate()
+    {
+        ShellManager.transforms[0].position = new Vector3(0, 0, 0.5f);
+        ShellManager.transforms[1].position = new Vector3(-0.433f, 0, -0.25f);
+        ShellManager.transforms[2].position = new Vector3(0.433f, 0, -0.25f);
+    }
+
+    private void SteerinController()
+    {
         if (Mathf.Abs(m_OldRotation - transform.eulerAngles.y) < 10f)
         {
             var turnadjust = (transform.eulerAngles.y - m_OldRotation) * 1.0f;
@@ -75,8 +90,6 @@ public class KartController : MonoBehaviour
 
         wheels[0].leftWheel.attachedRigidbody.AddForce(-transform.up * 100 *
                                                      wheels[0].leftWheel.attachedRigidbody.velocity.magnitude);
-
-        soundPlayer(motor);
     }
 
     private void isBreaking(float motor)
