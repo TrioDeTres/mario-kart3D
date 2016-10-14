@@ -33,7 +33,6 @@ public class KartController : MonoBehaviour
             w.leftWheel.ConfigureVehicleSubsteps(1, 12, 15);
             w.rightWheel.ConfigureVehicleSubsteps(1, 12, 15);
         }
-        TransformUpdate();
 
     }
 
@@ -42,7 +41,7 @@ public class KartController : MonoBehaviour
         float motor = maxMotorTorque * Input.GetAxis("Vertical");
         float steering = maxSteeringAngle * Input.GetAxis("Horizontal");
 
-        isBreaking(motor);
+        isBreaking();
 
         foreach (WheelData w in wheels)
         {
@@ -60,17 +59,14 @@ public class KartController : MonoBehaviour
                 w.leftWheel.motorTorque = motor;
                 w.rightWheel.motorTorque = motor;
             }
+            else {
+                w.leftWheel.motorTorque = 0;
+                w.rightWheel.motorTorque = 0;
+            }
         }
 
         SteerinController();
         soundPlayer(motor);
-    }
-
-    private void TransformUpdate()
-    {
-        ShellManager.transforms[0].position = new Vector3(0, 0, 0.5f);
-        ShellManager.transforms[1].position = new Vector3(-0.433f, 0, -0.25f);
-        ShellManager.transforms[2].position = new Vector3(0.433f, 0, -0.25f);
     }
 
     private void SteerinController()
@@ -92,14 +88,14 @@ public class KartController : MonoBehaviour
                                                      wheels[0].leftWheel.attachedRigidbody.velocity.magnitude);
     }
 
-    private void isBreaking(float motor)
+    private void isBreaking()
     {
-        if (motor == 0.0f && Input.GetKey(KeyCode.Space)) {
+        if ( Input.GetKey(KeyCode.Space)) {
             breakWheels = true;
             foreach (WheelData w in wheels)
             {
-                w.leftWheel.brakeTorque = 500.0f;
-                w.rightWheel.brakeTorque = 500.0f;
+                w.leftWheel.brakeTorque = 50.0f;
+                w.rightWheel.brakeTorque = 50.0f;
             }
         }
         else {

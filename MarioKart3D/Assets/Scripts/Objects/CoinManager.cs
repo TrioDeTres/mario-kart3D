@@ -19,13 +19,14 @@ public class CoinManager : MonoBehaviour {
         col.gameObject.GetComponent<KartCointPoints>().coins += 1;
         CoinHUD.coins = col.gameObject.GetComponent<KartCointPoints>().coins;
         GetComponentInChildren<MeshRenderer>().enabled = false;
-        AppearCoin();
+        GetComponent<Collider>().enabled = false;
+        StartCoroutine(AppearCoin());
         Debug.Log(col.gameObject.GetComponent<KartCointPoints>().coins);
     }
 
     IEnumerator AppearCoin()
     {
-        GetComponent<Collider>().enabled = false;
+        
         yield return new WaitForSeconds(3.5f);
         GetComponent<Collider>().enabled = true;
         GetComponentInChildren<MeshRenderer>().enabled = true;
