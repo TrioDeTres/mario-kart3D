@@ -27,11 +27,11 @@ public class KartController : MonoBehaviour
     public void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
-
+        rigidbody.centerOfMass = new Vector3(0f, -0.6f, 0.4f);
         foreach (WheelData w in wheels)
         {
-            w.leftWheel.ConfigureVehicleSubsteps(1, 12, 15);
-            w.rightWheel.ConfigureVehicleSubsteps(1, 12, 15);
+            w.leftWheel.ConfigureVehicleSubsteps(1000, 1, 1);
+            w.rightWheel.ConfigureVehicleSubsteps(1000, 1, 1);
         }
 
     }
@@ -71,6 +71,7 @@ public class KartController : MonoBehaviour
 
     private void SteerinController()
     {
+        return;
         if (Mathf.Abs(m_OldRotation - transform.eulerAngles.y) < 10f)
         {
             var turnadjust = (transform.eulerAngles.y - m_OldRotation) * 1.0f;
@@ -94,12 +95,17 @@ public class KartController : MonoBehaviour
             breakWheels = true;
             foreach (WheelData w in wheels)
             {
-                w.leftWheel.brakeTorque = 50.0f;
-                w.rightWheel.brakeTorque = 50.0f;
+                w.leftWheel.brakeTorque = 2500.0f;
+                w.rightWheel.brakeTorque = 2500.0f;
             }
         }
         else {
             breakWheels = false;
+            foreach (WheelData w in wheels)
+            {
+                w.leftWheel.brakeTorque = 0.0f;
+                w.rightWheel.brakeTorque = 0.0f;
+            }
         }
         
     }

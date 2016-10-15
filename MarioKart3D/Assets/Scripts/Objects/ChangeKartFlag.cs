@@ -7,7 +7,7 @@ public class ChangeKartFlag : MonoBehaviour {
 
     void OnTriggerEnter(Collider col)
     {
-        if (TriggerFlag.currentFlagValue <= flagValue && TriggerFlag.currentFlagValue != flagValue)
+        if (TriggerFlag.currentFlagValue < flagValue && TriggerFlag.currentFlagValue != flagValue && (TriggerFlag.currentFlagValue + 1 == flagValue))
         {
             TriggerFlag.currentFlagValue = flagValue;
             Debug.Log("Flag " + flagValue + " current " + TriggerFlag.currentFlagValue);
