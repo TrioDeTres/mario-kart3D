@@ -1,124 +1,115 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System;
+﻿using System.Collections.Generic;
 using UnityEngine;
-
-[Serializable]
-public struct WheelData
-{
-    public WheelCollider leftWheel;
-    public WheelCollider rightWheel;
-    public bool motor;
-    public bool steering;
-}
 
 public class KartController : MonoBehaviour
 {
-    public List<WheelData> wheels;
+    public WheelCollider[] wheels;
+    public Transform centerOfMasss;
     public float maxMotorTorque;
     public float maxSteeringAngle;
+    public float maxSpeed = 60;
+
     public List<AudioSource> soundEffects;
 
-    private Rigidbody rigidbody;
-    private float m_OldRotation;
-
-    private bool breakWheels;
+    private new Rigidbody rigidbody;
+    private bool isBraking;
+    private Vector3 initialPosition;
+    private float revertTorqueForce;
 
     public void Start()
     {
-        rigidbody = GetComponent<Rigidbody>();
-        rigidbody.centerOfMass = new Vector3(0f, -0.6f, 0.4f);
-        foreach (WheelData w in wheels)
-        {
-            w.leftWheel.ConfigureVehicleSubsteps(1000, 1, 1);
-            w.rightWheel.ConfigureVehicleSubsteps(1000, 1, 1);
-        }
+        initialPosition = transform.position;
+        revertTorqueForce = maxMotorTorque * 2.0f;
 
+        rigidbody = GetComponent<Rigidbody>();
+
+        rigidbody.centerOfMass = centerOfMasss.localPosition;
+
+        foreach (WheelCollider w in wheels)
+        {
+            w.ConfigureVehicleSubsteps(1000, 1, 1);
+        }
+    }
+
+    public void Update()
+    {
+        if (Input.GetKey(KeyCode.Return))
+        {
+            transform.position = initialPosition;
+        }
     }
 
     public void FixedUpdate()
     {
-        float motor = maxMotorTorque * Input.GetAxis("Vertical");
+        float forward = maxMotorTorque * Input.GetAxis("Vertical");
         float steering = maxSteeringAngle * Input.GetAxis("Horizontal");
 
-        isBreaking();
+        float speed = Vector3.Dot(rigidbody.velocity, transform.forward) * 3.6f;
 
-        foreach (WheelData w in wheels)
+        Debug.Log(speed);
+
+        Brake();
+
+        wheels[0].steerAngle = steering;
+        wheels[1].steerAngle = steering;
+
+        if (speed < maxSpeed && forward > 0)
         {
-            //Steering
-            if (w.steering)
-            {
-                w.leftWheel.steerAngle = steering;
-                w.rightWheel.steerAngle = steering;
-            }
+            wheels[0].motorTorque = forward;
+            wheels[1].motorTorque = forward;
+            wheels[2].motorTorque = forward;
+            wheels[3].motorTorque = forward;
 
-            //Torque
-            if (w.motor)// && !breakWheels)
-            {
-
-                w.leftWheel.motorTorque = motor;
-                w.rightWheel.motorTorque = motor;
-            }
-            else {
-                w.leftWheel.motorTorque = 0;
-                w.rightWheel.motorTorque = 0;
-            }
+        }
+        else if (speed > maxSpeed)
+        {
+            wheels[0].brakeTorque = revertTorqueForce;
+            wheels[1].brakeTorque = revertTorqueForce;
+            wheels[2].brakeTorque = revertTorqueForce;
+            wheels[3].brakeTorque = revertTorqueForce;
+            wheels[0].motorTorque = 0;
+            wheels[1].motorTorque = 0;
+            wheels[2].motorTorque = 0;
+            wheels[3].motorTorque = 0;
+        }
+        else
+        {
+            wheels[0].motorTorque = 0;
+            wheels[1].motorTorque = 0;
+            wheels[2].motorTorque = 0;
+            wheels[3].motorTorque = 0;
         }
 
-        SteerinController();
-        soundPlayer(motor);
+        PlaySounds(forward);
     }
 
-    private void SteerinController()
-    {
-        return;
-        if (Mathf.Abs(m_OldRotation - transform.eulerAngles.y) < 10f)
-        {
-            var turnadjust = (transform.eulerAngles.y - m_OldRotation) * 1.0f;
-            Quaternion velRotation = Quaternion.AngleAxis(turnadjust, Vector3.up);
-            rigidbody.velocity = velRotation * rigidbody.velocity;
-        }
-
-
-        m_OldRotation = transform.eulerAngles.y;
-
-        wheels[0].rightWheel.attachedRigidbody.AddForce(-transform.up * 100 *
-                                                     wheels[0].rightWheel.attachedRigidbody.velocity.magnitude);
-
-        wheels[0].leftWheel.attachedRigidbody.AddForce(-transform.up * 100 *
-                                                     wheels[0].leftWheel.attachedRigidbody.velocity.magnitude);
-    }
-
-    private void isBreaking()
+    private void Brake()
     {
         if ( Input.GetKey(KeyCode.Space)) {
-            breakWheels = true;
-            foreach (WheelData w in wheels)
-            {
-                w.leftWheel.brakeTorque = 2500.0f;
-                w.rightWheel.brakeTorque = 2500.0f;
-            }
+            isBraking = true;
+            wheels[0].brakeTorque = 2500.0f;
+            wheels[1].brakeTorque = 2500.0f;
+            wheels[2].brakeTorque = 2500.0f;
+            wheels[3].brakeTorque = 2500.0f;
         }
         else {
-            breakWheels = false;
-            foreach (WheelData w in wheels)
-            {
-                w.leftWheel.brakeTorque = 0.0f;
-                w.rightWheel.brakeTorque = 0.0f;
-            }
+            isBraking = false;
+            wheels[0].brakeTorque = 0.0f;
+            wheels[1].brakeTorque = 0.0f;
+            wheels[2].brakeTorque = 0.0f;
+            wheels[3].brakeTorque = 0.0f;
         }
         
     }
 
-    private void soundPlayer(float motor)
+    private void PlaySounds(float motor)
     {
-        if (!breakWheels)
+        if (!isBraking)
         {
             if (motor > 0.3)
             {
                 soundEffects[0].Play();
 
-                //StopSounds
                 soundEffects[1].Stop();
                 soundEffects[2].Stop();
                 soundEffects[3].Stop();
@@ -127,7 +118,6 @@ public class KartController : MonoBehaviour
             {
                 soundEffects[1].Play();
 
-                //stopSounds
                 soundEffects[0].Stop();
                 soundEffects[2].Stop();
                 soundEffects[3].Stop();
@@ -136,7 +126,6 @@ public class KartController : MonoBehaviour
             {
                 soundEffects[1].Play();
 
-                //StopSound
                 soundEffects[0].Stop();
                 soundEffects[2].Stop();
                 soundEffects[3].Stop();
@@ -145,7 +134,6 @@ public class KartController : MonoBehaviour
         else {
             soundEffects[3].Play();
 
-            //StopSound
             soundEffects[0].Stop();
             soundEffects[1].Stop();
             soundEffects[2].Stop();

@@ -505,7 +505,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1547774490626994}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 32, y: 0.91, z: 5.7}
+  m_LocalPosition: {x: 58.7, y: 0.91, z: 53.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4164987700654638}
@@ -1214,16 +1214,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wheels:
-  - leftWheel: {fileID: 146494919754908106}
-    rightWheel: {fileID: 146392806303802486}
-    motor: 1
-    steering: 1
-  - leftWheel: {fileID: 146445623759879826}
-    rightWheel: {fileID: 146278990161001140}
-    motor: 1
-    steering: 0
+  - {fileID: 146494919754908106}
+  - {fileID: 146392806303802486}
+  - {fileID: 146445623759879826}
+  - {fileID: 146278990161001140}
+  centerOfMasss: {fileID: 4577938715158968}
   maxMotorTorque: 700
   maxSteeringAngle: 15
+  maxSpeed: 85
   soundEffects:
   - {fileID: 82271119667964850}
   - {fileID: 82227422251530566}
