@@ -1,35 +1,24 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BonusManager : MonoBehaviour {
-    public GameObject bonus;
-    Vector3 position;
-    Quaternion rotation;
+public class BonusManager : MonoBehaviour
+{
+    public event Action OnShellGot;
+    public List<Bonus> bonusList;
 
 	// Use this for initialization
-	void Start () {
-        position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-        rotation = new Quaternion(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w) ;
-    }
-	
-	// Update is called once per frame
-	void Update () {
-        transform.Rotate(0, 35 * Time.deltaTime, 0);
-    }
-
-    void OnTriggerEnter(Collider col) {
-        ShellManager.hitBonus();
-        GetComponentInChildren<MeshRenderer>().enabled = false;
-        GetComponent<Collider>().enabled = false;
-        StartCoroutine(AppearBonus());
-        Debug.Log(col.gameObject.GetComponent<KartCointPoints>().coins);
-    }
-
-    IEnumerator AppearBonus()
+	void Start ()
     {
-        yield return new WaitForSeconds(3.5f);
-        GetComponent<Collider>().enabled = true;
-        GetComponentInChildren<MeshRenderer>().enabled = true;
+        bonusList = new List<Bonus> (FindObjectsOfType<Bonus>());
+        for (int i = 0; i < bonusList.Count; i++)
+            bonusList[i].OnBonusHit += BonusHit;
+	}
+
+    private void BonusHit(Bonus obj)
+    {
+        if (OnShellGot != null)
+            OnShellGot();
     }
 }
