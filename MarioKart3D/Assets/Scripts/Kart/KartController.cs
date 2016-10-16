@@ -64,14 +64,12 @@ public class KartController : MonoBehaviour
     {
         float forward = maxMotorTorque * Input.GetAxis("Vertical");
         float steering = maxSteeringAngle * Input.GetAxis("Horizontal");
-
-<<<<<<< HEAD
+        
         float speed = Vector3.Dot(rigidbody.velocity, transform.forward) * 3.6f;
 
         //Debug.Log(speed);
-=======
+
         speed = CurrentSpeed();
->>>>>>> origin/master
 
         Brake();
 
