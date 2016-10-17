@@ -41,7 +41,7 @@ public class Shell : MonoBehaviour
     void FixedUpdate ()
     {
         if (shellState == ShellState.ROAMING)
-            rigidBody.velocity = rigidBody.velocity.normalized * 30f;
+            rigidBody.velocity = rigidBody.velocity.normalized * 50f;
 	}
 
     public void SetShellRoaming(Vector3 p_direction)
