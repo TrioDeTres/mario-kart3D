@@ -27,7 +27,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1140409237384582
 GameObject:
   m_ObjectHideFlags: 0
@@ -44,7 +44,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1282317160892356
 GameObject:
   m_ObjectHideFlags: 1
@@ -144,7 +144,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1383004263262290
 GameObject:
   m_ObjectHideFlags: 0
@@ -221,6 +221,7 @@ GameObject:
   - component: {fileID: 4528178748521942}
   - component: {fileID: 54836312846467570}
   - component: {fileID: 114893095813022618}
+  - component: {fileID: 114998813020958560}
   m_Layer: 8
   m_Name: Kart
   m_TagString: Kart
@@ -291,7 +292,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1733712772256304
 GameObject:
   m_ObjectHideFlags: 1
@@ -566,7 +567,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1547774490626994}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 58.7, y: 0.91, z: 53.5}
+  m_LocalPosition: {x: 58.7, y: 1.56, z: 52.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4164987700654638}
@@ -1341,11 +1342,30 @@ MonoBehaviour:
   maxMotorTorque: 700
   maxSteeringAngle: 15
   maxSpeed: 85
+  halfSpeed: 0
   soundEffects:
   - {fileID: 82271119667964850}
   - {fileID: 82227422251530566}
   - {fileID: 82348723095140680}
   - {fileID: 82752850266238038}
+  speed: 0
+--- !u!114 &114998813020958560
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1547774490626994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67d930cff5c5e45429b15747aae30841, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shells: []
+  shellPrefab: {fileID: 1583363177972754, guid: 1a2c1579d021b9947a5b7db10e111fbc,
+    type: 2}
+  kart: {fileID: 4528178748521942}
+  shellShootSpawn: {fileID: 4394715714336144}
+  shootCooldown: 3
 --- !u!124 &124504815400367988
 Behaviour:
   m_ObjectHideFlags: 1
