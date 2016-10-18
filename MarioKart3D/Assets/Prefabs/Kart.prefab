@@ -105,6 +105,7 @@ GameObject:
   - component: {fileID: 124504815400367988}
   - component: {fileID: 81037942362962770}
   - component: {fileID: 45078528279651516}
+  - component: {fileID: 114897168412173378}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -221,7 +222,6 @@ GameObject:
   - component: {fileID: 4528178748521942}
   - component: {fileID: 54836312846467570}
   - component: {fileID: 114893095813022618}
-  - component: {fileID: 114998813020958560}
   m_Layer: 8
   m_Name: Kart
   m_TagString: Kart
@@ -519,7 +519,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4528178748521942}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4401075504819290
 Transform:
@@ -540,13 +540,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1356730142076166}
-  m_LocalRotation: {x: 0.15695159, y: -0, z: -0, w: 0.98760635}
-  m_LocalPosition: {x: 0, y: 2, z: -3.4000015}
+  m_LocalRotation: {x: 0.17364816, y: -0, z: -0, w: 0.9848078}
+  m_LocalPosition: {x: 0, y: 2.5, z: -3.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4528178748521942}
-  m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 18.06, y: 0, z: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 20, y: 0, z: 0}
 --- !u!4 &4466165824882832
 Transform:
   m_ObjectHideFlags: 1
@@ -579,8 +579,8 @@ Transform:
   - {fileID: 4655063958588168}
   - {fileID: 4401075504819290}
   - {fileID: 4058782026532834}
-  - {fileID: 4422226655058366}
   - {fileID: 4394715714336144}
+  - {fileID: 4422226655058366}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1349,23 +1349,25 @@ MonoBehaviour:
   - {fileID: 82348723095140680}
   - {fileID: 82752850266238038}
   speed: 0
---- !u!114 &114998813020958560
+--- !u!114 &114897168412173378
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1547774490626994}
+  m_GameObject: {fileID: 1356730142076166}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67d930cff5c5e45429b15747aae30841, type: 3}
+  m_Script: {fileID: 11500000, guid: 44d67765824413c48a8c5981e2e630dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shells: []
-  shellPrefab: {fileID: 1583363177972754, guid: 1a2c1579d021b9947a5b7db10e111fbc,
-    type: 2}
-  kart: {fileID: 4528178748521942}
-  shellShootSpawn: {fileID: 4394715714336144}
-  shootCooldown: 3
+  target: {fileID: 4528178748521942}
+  distanceAway: 6
+  distanceUp: 2
+  lookAtOffset: {x: 0, y: 0, z: 0.5}
+  minXAngle: 20
+  maxXAngle: 35
+  yAngleOpening: 60
+  damping: 4
 --- !u!124 &124504815400367988
 Behaviour:
   m_ObjectHideFlags: 1

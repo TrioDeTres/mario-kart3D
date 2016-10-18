@@ -2,24 +2,25 @@
 
 public class KartCameraController : MonoBehaviour {
 
-    public Transform lookAt;
+    public Transform target;
+    public float distanceAway = 6f;
+    public float distanceUp = 2f;
+    public Vector3 lookAtOffset;
+    private float verticalSensitivity = 50.0f;
+    private float horizontalSensitivity = 150.0f;
 
-    public float verticalSensitivity = 150.0f;
-    public float horizontalSensitivity = 150.0f;
-
-    public float maxYAngle = 45.0f;
-    public float minYAngle = 5.0f;
+    public float minXAngle = 5.0f;
+    public float maxXAngle = 45.0f;
+    public float yAngleOpening = 60f;
 
     public float damping = 4.0f;
 
-    private float x;
-    private float y;
-
+    private float yRotation;
+    private float xRotation;
+    
     public void Awake()
     {
         Vector3 angles = transform.localEulerAngles;
-        x = angles.x;
-        y = angles.y;
     }
 
     public void LateUpdate ()
@@ -27,18 +28,20 @@ public class KartCameraController : MonoBehaviour {
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
 
-        x += mouseX * horizontalSensitivity * Time.deltaTime;
-        y += mouseY * verticalSensitivity * Time.deltaTime;
+        yRotation += mouseX * horizontalSensitivity * Time.deltaTime;
+        xRotation += mouseY * verticalSensitivity * Time.deltaTime;
+        
+        xRotation = Mathf.Clamp(xRotation, minXAngle, maxXAngle);
+        yRotation = Mathf.Clamp(yRotation, yAngleOpening * -0.5f, yAngleOpening * 0.5f);
 
-        y = ClampAngle(y, minYAngle, maxYAngle);
-
-        Quaternion rotation = Quaternion.Euler(y, x, 0);
-
+        Quaternion rotation = Quaternion.Euler(xRotation + target.rotation.eulerAngles.x, 
+            yRotation + target.rotation.eulerAngles.y, 0);
         Quaternion smothRotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * damping);
 
-        transform.position = smothRotation * new Vector3(0, 0, -15.0f) + lookAt.position;
-
-        transform.LookAt(lookAt);
+        transform.position = rotation * new Vector3(0, 0, -distanceAway) + target.position;
+        //transform.position = smothRotation * new Vector3(0, 0, -distanceAway) + target.position;
+        transform.LookAt(target.position + lookAtOffset);
+        transform.position += Vector3.up * distanceUp;
     }
 
     public static float ClampAngle(float angle, float min, float max)
