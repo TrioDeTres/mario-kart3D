@@ -5,12 +5,14 @@ using UnityEngine;
 
 public class Bonus : MonoBehaviour
 {
-    public event Action<Bonus> OnBonusHit;
+    public event Action<Bonus>  OnBonusHit;
+
     public MeshRenderer         meshRenderer;
     public Collider             bonusCollider;
+    public float                rotSpeed = 180f;
 	void Update ()
     {
-        transform.Rotate(0, 35 * Time.deltaTime, 0);
+        transform.Rotate(0, rotSpeed * Time.deltaTime, 0);
     }
 
     void OnTriggerEnter(Collider col)
