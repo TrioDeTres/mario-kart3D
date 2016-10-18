@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
-public class KartCameraController : MonoBehaviour {
+public class KartCameraController : MonoBehaviour
+{
 
     public Transform target;
     public float distanceAway = 6f;

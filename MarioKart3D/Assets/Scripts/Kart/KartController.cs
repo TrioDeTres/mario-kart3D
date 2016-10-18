@@ -67,7 +67,6 @@ public class KartController : MonoBehaviour
         
         float speed = Vector3.Dot(rigidbody.velocity, transform.forward) * 3.6f;
 
-        //Debug.Log(speed);
 
         speed = CurrentSpeed();
 
@@ -75,14 +74,32 @@ public class KartController : MonoBehaviour
 
         wheels[0].steerAngle = steering;
         wheels[1].steerAngle = steering;
-
-        if (speed < maxSpeed && forward > 0)
+        
+        if (!isBraking)
         {
-            wheels[0].motorTorque = forward;
-            wheels[1].motorTorque = forward;
-            wheels[2].motorTorque = forward;
-            wheels[3].motorTorque = forward;
+            if (speed < maxSpeed && forward > 0)
+            {
+                wheels[0].motorTorque = forward;
+                wheels[1].motorTorque = forward;
+                wheels[2].motorTorque = forward;
+                wheels[3].motorTorque = forward;
 
+            }
+            //Backwards
+            else if (forward < 0)
+            {
+                wheels[0].motorTorque = forward * 0.5f;
+                wheels[1].motorTorque = forward * 0.5f;
+                wheels[2].motorTorque = forward * 0.5f;
+                wheels[3].motorTorque = forward * 0.5f;
+            }
+            else
+            {
+                wheels[0].motorTorque = 0;
+                wheels[1].motorTorque = 0;
+                wheels[2].motorTorque = 0;
+                wheels[3].motorTorque = 0;
+            }
         }
         else
         {
@@ -98,10 +115,11 @@ public class KartController : MonoBehaviour
 
     private void Brake()
     {
-        if ( Input.GetKey(KeyCode.Space)) {
+        if ( Input.GetKey(KeyCode.Space))
+        {
             isBraking = true;
-            wheels[0].brakeTorque = 2500.0f;
-            wheels[1].brakeTorque = 2500.0f;
+            wheels[0].brakeTorque = 250000.0f;
+            wheels[1].brakeTorque = 250000.0f;
         }
         else {
             isBraking = false;

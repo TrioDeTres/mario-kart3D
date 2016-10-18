@@ -16,8 +16,10 @@ public class TriggerFlag : MonoBehaviour {
     }
 
 	// Update is called once per frame
-	void Update () {
-        if (currentFlagValue != 0 && currentFlagValue >= maxFlagValue) {
+	void Update ()
+    {
+        if (currentFlagValue != 0 && currentFlagValue >= maxFlagValue)
+        {
             currentFlagValue = 0;
             laps++;
             resetTime();
