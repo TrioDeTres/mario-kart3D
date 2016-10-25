@@ -25,7 +25,7 @@ public class KartController : MonoBehaviour
     private float timeAfterBrake;
 
     [SerializeField]
-    private float speed;
+    public float speed;
 
     public void Start()
     {
