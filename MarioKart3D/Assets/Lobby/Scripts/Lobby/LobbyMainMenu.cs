@@ -11,6 +11,7 @@ namespace Prototype.NetworkLobby
         public RectTransform lobbyPanel;
 
         public InputField ipInput;
+        public InputField playerName;
 
         public void OnEnable()
         {

@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4174892307512594}
   - component: {fileID: 114782999345228528}
+  - component: {fileID: 114412617479392376}
   m_Layer: 0
   m_Name: NetworkPlayer
   m_TagString: Untagged
@@ -40,6 +41,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114412617479392376
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1444790499475134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 1
+  m_SendInterval: 0.07692308
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_SnapThreshold: 30
+  m_InterpolateRotation: 20
+  m_InterpolateMovement: 1
 --- !u!114 &114782999345228528
 MonoBehaviour:
   m_ObjectHideFlags: 1
