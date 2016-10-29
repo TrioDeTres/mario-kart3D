@@ -1,6 +1,5 @@
 /[Ll]ibrary/
 /[Tt]emp/
-/[Oo]bj/
 /[Bb]uild/
 /[Bb]uilds/
 /[Bb]in/
@@ -62,7 +61,6 @@ x64/
 x86/
 bld/
 [Bb]in/
-[Oo]bj/
 [Ll]og/
 
 # Visual Studio 2015 cache/options directory
@@ -92,7 +90,6 @@ artifacts/
 *_p.c
 *_i.h
 *.ilk
-*.obj
 *.pch
 *.pdb
 *.pgc
