@@ -18,7 +18,6 @@ namespace Prototype.NetworkLobby
         public Button colorButton;
         public InputField nameInput;
         public Button readyButton;
-        public Button waitingPlayerButton;
         public Button removePlayerButton;
 
         public GameObject localIcone;
@@ -40,7 +39,6 @@ namespace Prototype.NetworkLobby
         //static Color OddRowColor = new Color(250.0f / 255.0f, 250.0f / 255.0f, 250.0f / 255.0f, 1.0f);
         //static Color EvenRowColor = new Color(180.0f / 255.0f, 180.0f / 255.0f, 180.0f / 255.0f, 1.0f);
 
-
         public override void OnClientEnterLobby()
         {
             base.OnClientEnterLobby();
@@ -52,6 +50,7 @@ namespace Prototype.NetworkLobby
 
             if (isLocalPlayer)
             {
+                
                 SetupLocalPlayer();
             }
             else
@@ -71,6 +70,8 @@ namespace Prototype.NetworkLobby
 
             //if we return from a game, color of text can still be the one for "Ready"
             readyButton.transform.GetChild(0).GetComponent<Text>().color = Color.white;
+
+            
 
            SetupLocalPlayer();
         }
@@ -100,6 +101,8 @@ namespace Prototype.NetworkLobby
 
         void SetupLocalPlayer()
         {
+            LobbyPlayerList._instance.localPlayer = this;
+
             nameInput.interactable = true;
             remoteIcone.gameObject.SetActive(false);
             localIcone.gameObject.SetActive(true);
@@ -227,7 +230,6 @@ namespace Prototype.NetworkLobby
         public void ToggleJoinButton(bool enabled)
         {
             readyButton.gameObject.SetActive(enabled);
-            waitingPlayerButton.gameObject.SetActive(!enabled);
         }
 
         [ClientRpc]
@@ -288,6 +290,27 @@ namespace Prototype.NetworkLobby
         public void CmdNameChanged(string name)
         {
             playerName = name;
+        }
+
+        [Command]
+        public void CmdMessage(string message)
+        {
+            RpcClearInput(message);
+        }
+
+        [ClientRpc]
+        public void RpcClearInput(string message)
+        {
+            LobbyManager lobbyManager = LobbyManager.s_Singleton;
+
+            GameObject messageObject = Instantiate(lobbyManager.messagePrefab, lobbyManager.messageList.transform, false);
+
+            Text textMessageObject = messageObject.GetComponentInChildren<Text>();
+            textMessageObject.text = message;
+
+            lobbyManager.messageInput.text = string.Empty;
+            lobbyManager.messageInput.Select();
+            lobbyManager.messageInput.ActivateInputField();
         }
 
         //Cleanup thing when get destroy (which happen when client kick or disconnect)

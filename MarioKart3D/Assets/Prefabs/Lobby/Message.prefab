@@ -20,7 +20,6 @@ GameObject:
   m_Component:
   - component: {fileID: 224330452384798496}
   - component: {fileID: 114991466309517068}
-  - component: {fileID: 114274727799970922}
   - component: {fileID: 222752962610242972}
   m_Layer: 5
   m_Name: Message
@@ -46,38 +45,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &114274727799970922
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1191939419594490}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 52
-    i1: 131
-    i2: 159
-    i3: 54
-    i4: 111
-    i5: 142
-    i6: 162
-    i7: 68
-    i8: 121
-    i9: 83
-    i10: 238
-    i11: 70
-    i12: 155
-    i13: 15
-    i14: 11
-    i15: 139
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!114 &114555545651445192
 MonoBehaviour:
   m_ObjectHideFlags: 1

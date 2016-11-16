@@ -53,6 +53,10 @@ namespace Prototype.NetworkLobby
 
         protected LobbyHook _lobbyHooks;
 
+        public GameObject messageList;
+        public GameObject messagePrefab;
+        public InputField messageInput;
+
         void Start()
         {
             s_Singleton = this;
@@ -280,7 +284,6 @@ namespace Prototype.NetworkLobby
             LobbyPlayer newPlayer = obj.GetComponent<LobbyPlayer>();
             newPlayer.ToggleJoinButton(numPlayers + 1 >= minPlayers);
 
-
             for (int i = 0; i < lobbySlots.Length; ++i)
             {
                 LobbyPlayer p = lobbySlots[i] as LobbyPlayer;
@@ -416,6 +419,12 @@ namespace Prototype.NetworkLobby
         {
             ChangeTo(mainMenuPanel);
             infoPanel.Display("Cient error : " + (errorCode == 6 ? "timeout" : errorCode.ToString()), "Close", null);
+        }
+
+        public void CmdMessage()
+        {
+            if (string.IsNullOrEmpty(messageInput.text)) return;
+            LobbyPlayerList._instance.localPlayer.CmdMessage(messageInput.text);
         }
     }
 }

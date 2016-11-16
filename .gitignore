@@ -58,6 +58,7 @@ sysinfo.txt
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
+Build_Data/
 x64/
 x86/
 bld/

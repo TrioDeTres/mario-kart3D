@@ -16,6 +16,7 @@ namespace Prototype.NetworkLobby
 
         protected VerticalLayoutGroup _layout;
         protected List<LobbyPlayer> _players = new List<LobbyPlayer>();
+        public LobbyPlayer localPlayer;
 
         public void OnEnable()
         {

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
@@ -8,11 +9,13 @@ public class ChatManager : NetworkBehaviour
     public GameObject messagePrefab;
     public InputField messageInput;
 
-    
     public void SendMessage()
     {
         if (messageInput.text.Length > 0)
         {
+            print(hasAuthority);
+            print(connectionToClient);
+            print(connectionToServer);
             CmdMessage(messageInput.text);
         }
     }
@@ -20,13 +23,13 @@ public class ChatManager : NetworkBehaviour
     [Command]
     public void CmdMessage(string message)
     {
-        GameObject messageObject = GameObject.Instantiate(messagePrefab, messageList.transform);
-
+        GameObject messageObject = Instantiate(messagePrefab, messageList.transform, false);
+        
         Text textMessageObject = messageObject.GetComponentInChildren<Text>();
         textMessageObject.text = message;
-        textMessageObject.transform.localScale = Vector3.one;
-        textMessageObject.rectTransform.localScale = Vector3.one;
 
+        messageInput.text = string.Empty;
+        messageInput.Select();
         messageInput.ActivateInputField();
 
         NetworkServer.Spawn(messageObject);
