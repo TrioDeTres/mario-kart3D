@@ -67,5 +67,10 @@ namespace Prototype.NetworkLobby
                 ++i;
             }
         }
+
+        public int NumberOfPlayers()
+        {
+            return _players.Count;
+        }
     }
 }

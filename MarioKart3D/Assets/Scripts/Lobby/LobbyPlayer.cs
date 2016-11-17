@@ -18,7 +18,6 @@ namespace Prototype.NetworkLobby
         public Button colorButton;
         public InputField nameInput;
         public Button readyButton;
-        public Button removePlayerButton;
 
         public GameObject localIcone;
         public GameObject remoteIcone;
@@ -35,9 +34,7 @@ namespace Prototype.NetworkLobby
         public Color JoinColor = new Color(0.0f, 255.0f, 149.0f, 1.0f);
         public Color NotReadyColor = new Color(34.0f / 255.0f, 44 / 255.0f, 55.0f / 255.0f, 1.0f);
         public Color ReadyColor = new Color(0.0f, 204.0f / 255.0f, 204.0f / 255.0f, 1.0f);
-
-        //static Color OddRowColor = new Color(250.0f / 255.0f, 250.0f / 255.0f, 250.0f / 255.0f, 1.0f);
-        //static Color EvenRowColor = new Color(180.0f / 255.0f, 180.0f / 255.0f, 180.0f / 255.0f, 1.0f);
+        public Color HighlightedColor = new Color(9.0f, 56.0f, 56.0f, 1.0f);
 
         public override void OnClientEnterLobby()
         {
@@ -58,8 +55,6 @@ namespace Prototype.NetworkLobby
                 SetupOtherPlayer();
             }
 
-            //setup the player data on UI. The value are SyncVar so the player
-            //will be created with the right value currently on server
             OnMyName(playerName);
             OnMyColor(playerColor);
         }
@@ -68,12 +63,9 @@ namespace Prototype.NetworkLobby
         {
             base.OnStartAuthority();
 
-            //if we return from a game, color of text can still be the one for "Ready"
             readyButton.transform.GetChild(0).GetComponent<Text>().color = Color.white;
 
-            
-
-           SetupLocalPlayer();
+            SetupLocalPlayer();
         }
 
         void ChangeReadyButtonColor(Color c)
@@ -89,7 +81,6 @@ namespace Prototype.NetworkLobby
         void SetupOtherPlayer()
         {
             nameInput.interactable = false;
-            removePlayerButton.interactable = NetworkServer.active;
 
             ChangeReadyButtonColor(NotReadyColor);
 
@@ -106,9 +97,6 @@ namespace Prototype.NetworkLobby
             nameInput.interactable = true;
             remoteIcone.gameObject.SetActive(false);
             localIcone.gameObject.SetActive(true);
-            removePlayerButton.gameObject.SetActive(false);
-
-            CheckRemoveButton();
 
             if (playerColor == Color.white)
                 CmdColorChange();
@@ -135,22 +123,7 @@ namespace Prototype.NetworkLobby
             readyButton.onClick.RemoveAllListeners();
             readyButton.onClick.AddListener(OnReadyClicked);
 
-            //when OnClientEnterLobby is called, the loval PlayerController is not yet created, so we need to redo that here to disable
-            //the add button if we reach maxLocalPlayer. We pass 0, as it was already counted on OnClientEnterLobby
             if (LobbyManager.s_Singleton != null) LobbyManager.s_Singleton.OnPlayersNumberModified(0);
-        }
-
-        //This enable/disable the remove button depending on if that is the only local player or not
-        public void CheckRemoveButton()
-        {
-            if (!isLocalPlayer)
-                return;
-
-            int localPlayerCount = 0;
-            foreach (PlayerController p in ClientScene.localPlayers)
-                localPlayerCount += (p == null || p.playerControllerId == -1) ? 0 : 1;
-
-            removePlayerButton.interactable = localPlayerCount > 1;
         }
 
         public override void OnClientReady(bool readyState)
@@ -176,6 +149,10 @@ namespace Prototype.NetworkLobby
                 colorButton.interactable = isLocalPlayer;
                 nameInput.interactable = isLocalPlayer;
             }
+
+            ColorBlock readyButtonCollorBlock = readyButton.colors;
+            readyButtonCollorBlock.highlightedColor = HighlightedColor;
+            readyButton.colors = readyButtonCollorBlock;
         }
 
         public void OnPlayerListChanged(int idx)
@@ -216,17 +193,6 @@ namespace Prototype.NetworkLobby
             CmdNameChanged(str);
         }
 
-        public void OnRemovePlayerClick()
-        {
-            if (isLocalPlayer)
-            {
-                RemovePlayer();
-            }
-            else if (isServer)
-                LobbyManager.s_Singleton.KickPlayer(connectionToClient);
-                
-        }
-
         public void ToggleJoinButton(bool enabled)
         {
             readyButton.gameObject.SetActive(enabled);
@@ -238,14 +204,6 @@ namespace Prototype.NetworkLobby
             LobbyManager.s_Singleton.countdownPanel.UIText.text = "Match Starting in " + countdown;
             LobbyManager.s_Singleton.countdownPanel.gameObject.SetActive(countdown != 0);
         }
-
-        [ClientRpc]
-        public void RpcUpdateRemoveButton()
-        {
-            CheckRemoveButton();
-        }
-
-        //====== Server Command
 
         [Command]
         public void CmdColorChange()
@@ -295,22 +253,14 @@ namespace Prototype.NetworkLobby
         [Command]
         public void CmdMessage(string message)
         {
-            RpcClearInput(message);
+            RpcBroacastMessage(message, playerName);
         }
 
         [ClientRpc]
-        public void RpcClearInput(string message)
+        public void RpcBroacastMessage(string message, string playerNickname)
         {
-            LobbyManager lobbyManager = LobbyManager.s_Singleton;
-
-            GameObject messageObject = Instantiate(lobbyManager.messagePrefab, lobbyManager.messageList.transform, false);
-
-            Text textMessageObject = messageObject.GetComponentInChildren<Text>();
-            textMessageObject.text = message;
-
-            lobbyManager.messageInput.text = string.Empty;
-            lobbyManager.messageInput.Select();
-            lobbyManager.messageInput.ActivateInputField();
+            
+            ChatPanel.singleton.CreateMessage(message, playerNickname);
         }
 
         //Cleanup thing when get destroy (which happen when client kick or disconnect)

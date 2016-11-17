@@ -426,6 +426,8 @@ GameObject:
   - component: {fileID: 114840475140652412}
   - component: {fileID: 114839551066192286}
   - component: {fileID: 114319504266471740}
+  - component: {fileID: 114034185200211654}
+  - component: {fileID: 114367136064204128}
   m_Layer: 5
   m_Name: ChatPanel
   m_TagString: Untagged
@@ -1106,6 +1108,22 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+--- !u!114 &114034185200211654
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1391313978332020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 947e0593dc7d6524ab45959e2403b7f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  verticalScrollBar: {fileID: 114658016156406736}
+  messageList: {fileID: 1653793987398256}
+  messagePrefab: {fileID: 1191939419594490, guid: 34839f366f8ea2447953ee469b0f0b8b,
+    type: 2}
+  messageInput: {fileID: 114739317782862822}
 --- !u!114 &114035563114479396
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1599,9 +1617,6 @@ MonoBehaviour:
   hostInfo: {fileID: 114568713476013254}
   _playerNumber: 0
   _isMatchmaking: 0
-  messageList: {fileID: 1653793987398256}
-  messagePrefab: {fileID: 1191939419594490, guid: 34839f366f8ea2447953ee469b0f0b8b,
-    type: 2}
   messageInput: {fileID: 114739317782862822}
 --- !u!114 &114211782650004240
 MonoBehaviour:
@@ -2059,6 +2074,22 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 
+--- !u!114 &114367136064204128
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1391313978332020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 947e0593dc7d6524ab45959e2403b7f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  verticalScrollBar: {fileID: 114658016156406736}
+  messageList: {fileID: 1653793987398256}
+  messagePrefab: {fileID: 1191939419594490, guid: 34839f366f8ea2447953ee469b0f0b8b,
+    type: 2}
+  messageInput: {fileID: 114739317782862822}
 --- !u!114 &114389518524739022
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2489,7 +2520,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lobbyManager: {fileID: 114192656796656322}
   serverListRect: {fileID: 224442173230091766}
-  serverEntryPrefab: {fileID: 104980, guid: 9a1af8c2b03c38c43a3e9c2b43db4483, type: 2}
+  serverEntryPrefab: {fileID: 0}
   noServerFound: {fileID: 1884514778659868}
 --- !u!114 &114564176009130274
 MonoBehaviour:
@@ -2805,7 +2836,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114413499559851486}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114192656796656322}
+        m_MethodName: CmdMessage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114731167666336608
@@ -2916,34 +2958,12 @@ MonoBehaviour:
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114192656796656322}
-        m_MethodName: CmdMessage
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.InputField+SubmitEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.InputField+OnChangeEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
